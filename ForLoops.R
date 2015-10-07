@@ -1,5 +1,5 @@
 
-# Simple for loops
+# Simple for loops just to learn the syntax
 
 for (i in c(1, 6, 7)) {
     
