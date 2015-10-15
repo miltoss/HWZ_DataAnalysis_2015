@@ -9,10 +9,10 @@ par(mfrow = c(1, 2))
 # Simulate Universe (Grundgesamtheit) in vector data1
 size_universe = 100000
 # Generate a normal distribution with mean=mu and sd=sigma
-mu = 10; sigma = 4
+mu = 100; sigma = 20
 
 # Sample size in one experiment
-sample_size = 4
+sample_size = 16
 
 # Times to repeat the experiment
 n_samples=5000
