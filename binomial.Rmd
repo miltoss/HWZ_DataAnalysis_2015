@@ -1,0 +1,37 @@
+---
+title: "Binomial"
+output: html_document
+---
+
+## Binomiale Verteilung
+
+Es gibt zwe möglichen Resultate, Y, N oder 0, 1, usw.
+Wenn die Wahrscheinlichkeit für 1 ist p, dann können wir folgendermassen
+n Zahlen generieren:
+
+```{r}
+sample_size = 100
+n_experiments = 4
+p <- 0.8
+x <- rbinom(n_experiments, sample_size, prob = p)
+x
+ps <- x / sample_size
+ps
+```
+
+Gemäss Theorie ist die gemessene Proportion normalverteilt:
+$$
+N(p, \frac{p(1-p)}{n}) 
+$$
+(Vorsicht, das ist die Varianz).
+
+Da aber p unbekannt ist, verwenden $p_{s}$, um das Vertraueninterval zu schätzen:
+
+$$
+p = p_{s} \pm Z_{\frac{a}{2}} \sqrt(\frac{p_{s}(1-p_{s})}{n})
+$$
+vorausgesetzt $np_{s} > 9$ and $n(1-p_{s}) > 9$
+
+
+
+

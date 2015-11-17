@@ -29,7 +29,7 @@ Jetzt ziehen wir eine kleine Stichprobe:
 ```{r, echo=TRUE}
 sample_size <- 4 # Sample size
 my_sample <- sample(universe, sample_size)
-head(my_sample, 5) # Print the first 5 elements of the sample on the screen
+head(my_sample) # Print the first elements of the sample on the screen
 ```
 
 Der Mittelwert und Standardabweichung der Stichprobe sind "nah" zu mu und sigma aber nicht
@@ -41,7 +41,7 @@ cat("Standard Deviation of the sample:", sd(my_sample), "\n")
 
 ## Stichprobeverteilung
 
-Wir können jetzt die Stichprobeziehung mehrmals durchführen. Der Mittelwert
+Wir kännen jetzt die Stichprobeziehung mehrmals durchführen. Der Mittelwert
 der sample_size Zufallsvariabeln ist auch eine Zufallsvariabel. Schauen wir mal,
 wie diese verteilt ist.:
 
@@ -148,3 +148,109 @@ conf.int.z(xbar = 80.50, sigma = 2.2, n = 40, alpha = 0.05)
 
 ```
 
+## Realistischer Fall: Konfidenzinterval wenn $\sigma$ unbekannt ist
+
+Betrachten wir nochmals: 
+$$
+\frac{\bar{X} - \mu}{\frac{\sigma}{\sqrt{n}}}
+$$ 
+
+Wie schon erwähnt diese Verteilung ist N(mu, 1 ) verteilt. Das ist gut, vorausgesetzt wir haben 
+$\sigma$. Wenn nicht, können wir die berechnete Standardabweichung S aus den Daten verwenden. 
+Wir hoffen, dass 
+
+$$
+\frac{\bar{X} - \mu}{\frac{S}{\sqrt{n}}}
+$$ 
+
+irgendwelche bekannte Verteilung folgt.Zuerst überlegen wir uns. Weil S nicht ganz gleich $\sigma$
+ist, sondern eine Schätzung mit Fehler, erwarten wir, dass unsere Schätzung von $\mu$ jetzt
+unpräziser wird.
+
+Zuerst die Simulation:
+
+```{r, echo=TRUE}
+n_iterations <-  10000 # Number of times that we repeat
+dist1 <-  NULL
+dist2 <- NULL
+for (i in 1:n_iterations) {
+    my_sample <- sample(universe, sample_size)
+    x_bar <- mean(my_sample)
+    S <- sd(my_sample)
+    d1 <- (x_bar - mu) / (sigma / sqrt(sample_size) )
+    dist1 <- c(dist1, d1)
+    d2 <- (x_bar - mu) / (S / sqrt(sample_size) )
+    dist2 <- c(dist2, d2)
+}
+#cat("Mean of the sampling distribution:", mean(sample_mean), "\n")
+#cat("Standard Deviation of the sampling distribution:", sd(sample_mean), "\n")
+par(mfrow = c(1, 2))
+hist(dist1, freq = F, xlim = c(-10, 10), breaks = seq(-100, 100))
+curve(dnorm, add = T, col = "blue")
+hist(dist2, freq = F, xlim = c(-10, 10), breaks = seq(-100, 100))
+curve(dt(x, df = sample_size -1), col = "green", add = T)
+par(mfrow = c(1, 1))
+sd(dist1)
+sd(dist2)
+
+```
+Die rechte Verteilung ist die t-Verteilung (auch bekannt als Studentverteilung).
+Für eine niedrige Anzahl Freiheitsgraden ist die Studentverteilung breiter als die Normalverteilung.
+Sobald die Anzahl Freiheitsgraden (sprich die Stichprobegrösse) steigt, nähert sich die
+Studentverteilung die Standardnormalverteilung an.
+
+Hier ist eine schöne Grafik, die ich heruntergeladen habe:
+
+```{r, echo=TRUE}
+
+x <- seq(-4, 4, length=100)
+hx <- dnorm(x)
+
+degf <- c(1, 3, 8, 30)
+colors <- c("red", "blue", "darkgreen", "gold", "black")
+labels <- c("df=1", "df=3", "df=8", "df=30", "normal")
+
+plot(x, hx, type="l", lty=2, xlab="x value",
+     ylab="Density", main="Comparison of t Distributions")
+
+for (i in 1:4){
+  lines(x, dt(x,degf[i]), lwd=2, col=colors[i])
+}
+
+legend("topright", inset=.05, title="Distributions",
+       labels, lwd=2, lty=c(1, 1, 1, 1, 2), col=colors)
+
+```
+
+und das Konfidenzinterval wird folgendermassen berechnet:
+
+$$
+\mu = \bar{X} \pm t_{\frac{a}{2}, df} \frac{S}{\sqrt{n}} 
+$$
+wobei df = n -1
+
+Und hier die Funktion, die es berechnet.
+
+```{r, echo=TRUE}
+conf.int.t <- function(xbar, S, n, alpha) {
+
+    
+    d <- qt(1 - alpha / 2, n - 1) * S / sqrt(n) 
+    
+    cat("With", 1-alpha, "certainty the mean mu lies between", xbar, "+/-", d,  "\n")
+    cat("With", 1-alpha, "certainty the mean mu lies between", xbar -d, "and", xbar + d, "\n")
+    
+    return(d)
+    
+}
+
+# Test the function
+conf.int.t(xbar = 10, S = 2, n = 4, alpha = 0.05)
+```
+
+Vergleichen wir zum Konfidenzinterval, wenn wir statt S = 2, einen bekannten $\sigma$ = 2
+haben.
+
+```{r, echo=TRUE}
+conf.int.z(xbar = 10, sigma = 2, n = 4, alpha = 0.05)
+```
