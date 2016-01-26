@@ -4,10 +4,8 @@ z.test.stat <- function(Xbar, mu, sigma, n)
     # sigma bekannt
     
 {
-    
     z <- ( Xbar - mu ) / ( sigma / sqrt(n) )
     return(z)
-    
 }
 
 t.test.stat <- function(Xbar, mu, S, n)
@@ -20,3 +18,10 @@ t.test.stat <- function(Xbar, mu, S, n)
     
 }
 
+
+z.test.stat.prop <- function(p, ps, n)
+{
+    z = (ps - p) / sqrt( p * (1 - p) / n)
+    return(z)
+}
+    
