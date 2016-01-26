@@ -25,7 +25,7 @@ conf.int.t <- function(xbar, s, n, alpha) {
 
 
 n.int.z <- function(d, xbar, sigma, alpha) {
-    # Calculates the necessary sample size to achieve a confidence interval when sigma is unknown
+    # Calculates the necessary sample size to achieve a confidence interval when sigma is known
     n <- qnorm(1 - alpha / 2) * sigma / d
     n <- n**2
     return(n)
