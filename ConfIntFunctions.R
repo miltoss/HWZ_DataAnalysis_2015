@@ -34,6 +34,8 @@ n.int.z <- function(d, xbar, sigma, alpha) {
 n.int.z(d = 1.95, xbar = 2.5, sigma = 2, alpha = 0.05)
 
 
+
+
 conf.int.prop <- function(p, n, alpha) {
     # Calculates the confidence interval for a proportion.
     d <- qnorm(1 - alpha / 2) * sqrt(p * (1-p) / n)
