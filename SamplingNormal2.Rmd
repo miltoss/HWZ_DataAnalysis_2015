@@ -1,6 +1,7 @@
 ---
-title: "Stichprobenverteilug einer Normalverteilung und Intervalschätzung für den Mittelwert"
-output: html_document
+title: Stichprobenverteilug einer Normalverteilung und Intervalschätzung für den
+  Mittelwert
+output: pdf_document
 ---
 
 ## Grundgesamtheit generieren und darstellen
@@ -41,7 +42,7 @@ cat("Standard Deviation of the sample:", sd(my_sample), "\n")
 
 ## Stichprobeverteilung
 
-Wir kännen jetzt die Stichprobeziehung mehrmals durchführen. Der Mittelwert
+Wir können jetzt die Stichprobeziehung mehrmals durchführen. Der Mittelwert
 der sample_size Zufallsvariabeln ist auch eine Zufallsvariabel. Schauen wir mal,
 wie diese verteilt ist.:
 

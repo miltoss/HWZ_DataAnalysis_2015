@@ -72,11 +72,11 @@ n_experiments = 4
 p &lt;- 0.8
 x &lt;- rbinom(n_experiments, sample_size, prob = p)
 x</code></pre>
-<pre><code>## [1] 78 76 76 77</code></pre>
+<pre><code>## [1] 72 85 83 88</code></pre>
 <pre class="r"><code>ps &lt;- x / sample_size
 ps</code></pre>
-<pre><code>## [1] 0.78 0.76 0.76 0.77</code></pre>
-<p>Gemäss Theorie ist die gemessene Proportion normalverteilt: <span class="math">\[
+<pre><code>## [1] 0.72 0.85 0.83 0.88</code></pre>
+<p>Gem??ss Theorie ist die gemessene Proportion normalverteilt: <span class="math">\[
 N(p, \frac{p(1-p)}{n}) 
 \]</span> (Vorsicht, das ist die Varianz).</p>
 <p>Da aber p unbekannt ist, verwenden <span class="math">\(p_{s}\)</span>, um das Vertraueninterval zu schätzen:</p>

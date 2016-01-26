@@ -44,5 +44,15 @@ conf.int.prop <- function(p, n, alpha) {
 
 conf.int.prop(p = 0.5, n = 100, alpha =0.05 )
 
+n.int.prop <- function(d, p, alpha) {
+    
+    n <- qnorm(1 - alpha / 2)**2 * p * (1 - p) / d**2
+    
+    cat("The necessary sample size is", n,  "\n")
+    
+    return(n)
+    
+}
+
 
 
